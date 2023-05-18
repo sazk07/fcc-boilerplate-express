@@ -1,13 +1,15 @@
 require('dotenv').config()
+const bodyParser = require('body-parser')
 let express = require('express');
 let app = express();
+
+console.log("Hello World")
 
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path} - ${req.ip}`)
   next()
 })
 
-console.log("Hello World")
 const file1 = __dirname + '/views/index.html'
 app.get("/", (req, res) => {
   res.sendFile(file1)
@@ -43,6 +45,8 @@ app.get("/:word/echo", (req, res) => {
   })
 })
 
+app.use(bodyParser.urlencoded({extended: false}))
+
 app.route("/name")
   .get((req, res) => {
     const queryString= req.query
@@ -51,4 +55,4 @@ app.route("/name")
     })
   })
 
- module.exports = app;
+module.exports = app;
