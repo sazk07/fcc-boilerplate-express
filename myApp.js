@@ -30,17 +30,25 @@ app.get("/json", (req, res) => {
 app.get('/now', (req, res, next) => {
   req.time = new Date().toString()
   next()
-}, (req, res, next) => {
+}, (req, res) => {
   res.json({
     time: req.time
   })
 })
 
-app.get("/:word/echo", (req, res, next) => {
+app.get("/:word/echo", (req, res) => {
   const word = req.params.word
   res.json({
     echo: word
   })
 })
+
+app.route("/name")
+  .get((req, res) => {
+    const queryString= req.query
+    res.json({
+      name: `${req.query.first} ${req.query.last}`
+    })
+  })
 
  module.exports = app;
