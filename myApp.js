@@ -49,9 +49,15 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.route("/name")
   .get((req, res) => {
-    const queryString= req.query
+    const queryString = req.query
     res.json({
       name: `${req.query.first} ${req.query.last}`
+    })
+  })
+  .post((req, res) => {
+    const queryString = req.body
+    res.json({
+      name: `${queryString.first} ${queryString.last}`
     })
   })
 
