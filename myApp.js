@@ -1,7 +1,7 @@
 require('dotenv').config()
 const bodyParser = require('body-parser')
-let express = require('express');
-let app = express();
+const express = require('express');
+const app = express();
 
 console.log("Hello World")
 
@@ -20,13 +20,9 @@ app.use("/public", express.static(file2))
 
 app.get("/json", (req, res) => {
   const mySecret = process.env.MESSAGE_STYLE
-  const capitalizedMessage = res.json({
-    "message": "HELLO JSON"
-  })
-  const normalMessage = res.json({
-    "message": "Hello json"
-  })
-  (mySecret == "uppercase") ? capitalizedMessage : normalMessage
+  const message = "Hello json"
+  const conditionalMsg = (mySecret === "uppercase") ? message.toUpperCase() : message
+  res.json({message: conditionalMsg})
 })
 
 app.get('/now', (req, res, next) => {
@@ -39,7 +35,7 @@ app.get('/now', (req, res, next) => {
 })
 
 app.get("/:word/echo", (req, res) => {
-  const word = req.params.word
+  const { word } = req.params
   res.json({
     echo: word
   })
@@ -49,9 +45,9 @@ app.use(bodyParser.urlencoded({extended: false}))
 
 app.route("/name")
   .get((req, res) => {
-    const queryString = req.query
+    const { first: firstName, last: lastName } = req.query
     res.json({
-      name: `${req.query.first} ${req.query.last}`
+      name: `${firstName} ${lastName}`
     })
   })
   .post((req, res) => {
